@@ -15,6 +15,8 @@
  */
 package eu.jpereira.trainings.designpatterns.structural.composite.model;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -40,7 +42,7 @@ public abstract class CompositeShape extends Shape {
 	 */
 	public boolean removeShape(Shape shape) {
 		// TODO: implement
-		return false;
+    return shapes.remove(shape);
 
 	}
 
@@ -51,7 +53,7 @@ public abstract class CompositeShape extends Shape {
 	 */
 	public int getShapeCount() {
 		// TODO: implement
-		return 0;
+		return shapes.size();
 
 	}
 
@@ -63,13 +65,18 @@ public abstract class CompositeShape extends Shape {
 	 * @throws ShapeDoesNotSupportChildren
 	 *             if this shape is not a composite
 	 */
-	public void addShape(Shape shape) {
+	public void addShape(Shape shape) {//throws ShapeDoesNotSupportChildren {
 		// TODO: Implement
+		if (this.isComposite()) {
+		  shapes.add(shape);
+    } else {
+		  //throw new ShapeDoesNotSupportChildren();
+    }
 	}
 
 	public List<Shape> getShapes() {
 		// TODO: Implement
-		return null;
+		return shapes;
 
 	}
 
@@ -78,8 +85,14 @@ public abstract class CompositeShape extends Shape {
 	 * @return
 	 */
 	public List<Shape> getShapesByType(ShapeType circle) {
-		return null;
 		// TODO: Implement
+    List<Shape> typeShapes = new ArrayList<Shape>();
+    for (Shape s : shapes) {
+      if (s.getType().equals(circle)) {
+        typeShapes.add(s);
+      }
+    }
+    return typeShapes;
 	}
 
 	/**
@@ -89,7 +102,7 @@ public abstract class CompositeShape extends Shape {
 	 */
 	public List<Shape> getLeafShapes() {
 		// TODO: Implement
-		return null;
+		return createShapesList();
 	}
 
 	/**
@@ -98,7 +111,7 @@ public abstract class CompositeShape extends Shape {
 	 * @return
 	 */
 	protected List<Shape> createShapesList() {
-		return null;
+		return new ArrayList<Shape>();
 		// TODO: Implement
 	}
 }

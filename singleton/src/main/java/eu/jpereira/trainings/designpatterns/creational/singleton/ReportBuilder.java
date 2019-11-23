@@ -1,18 +1,3 @@
-/**
- * Copyright 2011 Joao Miguel Pereira
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 package eu.jpereira.trainings.designpatterns.creational.singleton;
 
 import java.util.ArrayList;
@@ -36,7 +21,7 @@ public class ReportBuilder {
 
 	// Class variables
 	// Single instance
-	private static ReportBuilder instance;
+	private static ReportBuilder instance;//volatile
 	private static List<String> configuredSites;
 
 	// Class initializer block
@@ -90,15 +75,29 @@ public class ReportBuilder {
 	 * 
 	 * @return A single instance
 	 */
-	public static ReportBuilder getInstance() {
+	public static ReportBuilder getInstance() {//synchronized
 		System.out.println("Getting instance for Thread " + Thread.currentThread().getId());
 		if (instance == null) {
-			System.out.println("Instance is null for Thread " + Thread.currentThread().getId());
-			instance = new ReportBuilder();
-			System.out.println("Returing " + instance.hashCode() + " instance to Thread " + Thread.currentThread().getId());
+			synchronized(ReportBuilder.class){
+				if (instance == null){
+					System.out.println("Instance is null for Thread " + Thread.currentThread().getId());
+					instance = new ReportBuilder();
+					System.out.println("Returing " + instance.hashCode() + " instance to Thread " + Thread.currentThread().getId());
+				}
+			}
 		}
 		return instance;
 	}
+
+  /*public static synchronized ReportBuilder getInstance() {
+    System.out.println("Getting instance for Thread " + Thread.currentThread().getId());
+    if (instance == null) {
+          System.out.println("Instance is null for Thread " + Thread.currentThread().getId());
+          instance = new ReportBuilder();
+          System.out.println("Returing " + instance.hashCode() + " instance to Thread " + Thread.currentThread().getId());
+    }
+    return instance;
+  }*/
 
 	/**
 	 * 

@@ -28,6 +28,7 @@ public class Circle extends CompositeShape {
 	 */
 	@Override
 	public ShapeType getType() {
+
 		return ShapeType.CIRCLE;
 	}
 
