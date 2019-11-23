@@ -21,10 +21,13 @@ package eu.jpereira.trainings.designpatterns.structural.facade.model;
  */
 public class Book {
 
+	private String isbn;
+
 	/**
 	 * @param string
 	 */
 	public Book(String string) {
+		this.isbn = string;
 		// TODO Auto-generated constructor stub
 	}
 

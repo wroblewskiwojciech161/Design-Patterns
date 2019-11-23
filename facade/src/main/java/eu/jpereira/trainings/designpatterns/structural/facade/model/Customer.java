@@ -21,10 +21,13 @@ package eu.jpereira.trainings.designpatterns.structural.facade.model;
  */
 public class Customer {
 
+	private String customerId;
+
 	/**
 	 * @param string
 	 */
 	public Customer(String string) {
+		this.customerId = string;
 		// TODO Auto-generated constructor stub
 	}
 
