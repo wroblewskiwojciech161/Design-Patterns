@@ -1,24 +1,7 @@
-/**
- * Copyright 2011 Joao Miguel Pereira
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 package eu.jpereira.trainings.designpatterns.behavioral.iterator.command.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
 
 import eu.jpereira.trainings.designpatterns.behavioral.iterator.command.model.exceptions.CouldNotConnectException;
 import eu.jpereira.trainings.designpatterns.behavioral.iterator.command.model.results.DBServerInstanceResult;
@@ -31,9 +14,9 @@ import eu.jpereira.trainings.designpatterns.behavioral.iterator.command.model.re
  */
 
 //TODO: EXERCISE implement Iterable<Command> and implement the method iterator()
-public class CommandJob implements Command{
+public class CommandJob implements Command, Iterable<Command>{
 
-	private List<Command> commands;
+	public List<Command> commands;
 
 	/**
 	 * Create new Command Job
@@ -60,6 +43,7 @@ public class CommandJob implements Command{
 	public Collection<Command> getCommands() {
 		return Collections.unmodifiableCollection(commands);
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -94,4 +78,41 @@ public class CommandJob implements Command{
 	}
 
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Iterator<Command> iterator() {
+		return new CommandsIterator();
+	}
+
+	@SuppressWarnings("rawtypes")
+	private class CommandsIterator implements Iterator {
+
+	    private int position = -1;
+
+        @Override
+        public boolean hasNext() {
+            if(position < commands.size()-1) return true;
+            return false;
+        }
+
+        @Override
+        public Object next() {
+            if(this.hasNext()) {
+                position++;
+                return commands.get(position);
+            }
+            else
+                return null;
+        }
+
+        @Override
+        public void remove() {
+
+        }
+
+        @Override
+        public void forEachRemaining(Consumer action) {
+
+        }
+    }
 }
